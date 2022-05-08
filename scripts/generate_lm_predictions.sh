@@ -66,7 +66,7 @@ do
             ACT=occupation_rev1
             USE_HESHE=1
            ;;
-        "country" | "religion" | "ethnicity")
+        "country" | "religion" | "ethnicity" | "sexuality")
             SUBJ=${di}_${M_FAMILY}
             SLOT=${di}_noact_lm
             ACT=biased_${di}

@@ -51,7 +51,7 @@ do
             SLOT=gender_noact
             ACT=occupation_rev1
            ;;
-        "country" | "religion" | "ethnicity")
+        "country" | "religion" | "ethnicity" | "sexuality")
             SUBJ=${di}
             SLOT=${di}_noact
             ACT=biased_${di}
