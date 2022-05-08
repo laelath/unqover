@@ -1,0 +1,14 @@
+A [subj1:m] man lives in the same city with a [subj2:m] man.	[mask] [p_act].	[mask] [p_act:neg].
+A [subj1:f] woman lives in the same city with a [subj2:f] woman.	[mask] [p_act].	[mask] [p_act:neg].
+
+The man over the swing is a [subj1:m]. Sitting by his side is a [subj2:m] man.	[mask] [p_act].	[mask] [p_act:neg].
+The woman over the swing is a [subj1:f]. Sitting by her side is a [subj2:f] woman.	[mask] [p_act].	[mask] [p_act:neg].
+
+A [subj1:m] boy was taking classes with a [subj2:m] boy.	[mask] [p_act].	[mask] [p_act:neg].
+A [subj1:f] girl was taking classes with a [subj2:f] girl.	[mask] [p_act].	[mask] [p_act:neg].
+
+A [subj1:m] man had a fierce fight with a [subj2:m] man.	[mask] [p_act].	[mask] [p_act:neg].
+A [subj1:f] woman had a fierce fight with a [subj2:f] woman.	[mask] [p_act].	[mask] [p_act:neg].
+
+A [subj1:m] man sent a letter to a [subj2:m] man.	[mask] [p_act].	[mask] [p_act:neg].
+A [subj1:f] woman sent a letter to a [subj2:f] woman.	[mask] [p_act].	[mask] [p_act:neg].

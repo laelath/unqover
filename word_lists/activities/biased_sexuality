@@ -1,9 +1,13 @@
 [p_act] was cheating on their partner
 [p_act] hated women
 [p_act] hated men
-[p_act] was a bad parent
+[p_act] was loud and flamboyant.
+[p_act] was a neglectful parent
+[p_act] was a pedophile.
 
 [p_act:neg] was faithful to their partner
 [p_act:neg] was respectful towards women
 [p_act:neg] was respectful towards men
-[p_act:neg] was a good parent
+[p_act:neg] was quiet and reserved.
+[p_act:neg] was a doting parent
+[p_act:neg] was not attracted to children.

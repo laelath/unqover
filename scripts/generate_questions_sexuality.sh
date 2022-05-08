@@ -38,6 +38,24 @@ python3 -m templates.generate_underspecified_templates --template_type ${TYPE} \
       --subj $SUBJ --act $ACT --slot $SLOT \
       --output ./data/${FILE}.source.json
 
+TYPE=slot_act_map
+SUBJ=sexuality
+SLOT=sexuality_noact_lm
+ACT=biased_sexuality
+FILE=slotmap_${SUBJ//_}roberta_${ACT//_}_${SLOT//_}
+python3 -m templates.generate_underspecified_templates --template_type ${TYPE} \
+      --subj $SUBJ --act $ACT --slot $SLOT --lm_mask "<mask>" \
+      --output ./data/${FILE}.source.json
+
+TYPE=slot_act_map
+SUBJ=sexuality
+SLOT=sexuality_noact_lm
+ACT=biased_sexuality
+FILE=slotmap_${SUBJ//_}bert_${ACT//_}_${SLOT//_}
+python3 -m templates.generate_underspecified_templates --template_type ${TYPE} \
+      --subj $SUBJ --act $ACT --slot $SLOT --lm_mask "[MASK]" \
+      --output ./data/${FILE}.source.json
+
 # with --filler option
 if [[ -n $extra ]]; then
   extra=$(echo $extra | tr "," "\n")
