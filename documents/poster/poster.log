@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2020.11.23)  8 MAY 2022 14:04
+This is XeTeX, Version 3.14159265-2.6-0.999991 (TeX Live 2019/Debian) (preloaded format=xelatex 2020.11.23)  8 MAY 2022 14:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1097,32 +1097,32 @@ LaTeX Info: Redefining \cite on input line 694.
  (./poster.aux)
 \openout1 = `poster.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 112.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 113.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 1
-12.
+13.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 112.
-LaTeX Font Info:    ... okay on input line 112.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 113.
+LaTeX Font Info:    ... okay on input line 113.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -1160,7 +1160,7 @@ LaTeX Font Info:    ... okay on input line 112.
 
 ABD: EveryShipout initializing macros
 \AtBeginShipoutBox=\box130
-Package hyperref Info: Link coloring OFF on input line 112.
+Package hyperref Info: Link coloring OFF on input line 113.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2019/09/16 v2.46 Cross-referencing by name of section
@@ -1173,9 +1173,9 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count363
 )
-LaTeX Info: Redefining \ref on input line 112.
-LaTeX Info: Redefining \pageref on input line 112.
-LaTeX Info: Redefining \nameref on input line 112.
+LaTeX Info: Redefining \ref on input line 113.
+LaTeX Info: Redefining \pageref on input line 113.
+LaTeX Info: Redefining \nameref on input line 113.
 
 (./poster.out) (./poster.out)
 \@outlinefile=\write5
@@ -1206,43 +1206,66 @@ Dictionary: translator-numbers-dictionary, Language: English
 ry-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 ) ABD: EverySelectfont initializing macros
-LaTeX Info: Redefining \selectfont on input line 112.
+LaTeX Info: Redefining \selectfont on input line 113.
  (./poster.nav)
-LaTeX Font Info:    Calculating math sizes for size <16.56> on input line 112.
+LaTeX Font Info:    Calculating math sizes for size <16.56> on input line 113.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
-12.
+13.
 
 (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-12.
+13.
 
 (/usr/share/texmf/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-112.
+113.
 
 (/usr/share/texmf/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 
 LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <16.56> not available
-(Font)              size <17.28> substituted on input line 112.
+(Font)              size <17.28> substituted on input line 113.
 
 
 LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <11.59193> not available
-(Font)              size <12> substituted on input line 112.
+(Font)              size <12> substituted on input line 113.
+
+
+Underfull \hbox (badness 1147) in paragraph at lines 256--256
+\TU/lmr/m/n/34.34 quo blam quamentum repudistiam iunda doluptate dolorecta quat
+em
+ []
 
 File: template.png Graphic file (type bmp)
 <template.png>
 File: instantiated.png Graphic file (type bmp)
 <instantiated.png>
+LaTeX Font Info:    Calculating math sizes for size <34.34> on input line 256.
 
-Underfull \hbox (badness 1147) in paragraph at lines 239--239
-\TU/lmr/m/n/34.34 quo blam quamentum repudistiam iunda doluptate dolorecta quat
-em
+LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <34.34> not available
+(Font)              size <24.88> substituted on input line 256.
+
+
+LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <24.03789> not available
+(Font)              size <24.88> substituted on input line 256.
+
+
+Overfull \hbox (29.36621pt too wide) detected at line 256
+\U/msb/m/n/34.34 B\OT1/lmr/m/n/34.34 (\OML/lmm/m/it/34.34 x[]\OMS/lmsy/m/n/34.3
+4 j\OML/lmm/m/it/34.34 x[]; a; ^^\\OT1/lmr/m/n/34.34 ) = [][]\U/msb/m/n/34.34 S
+\OT1/lmr/m/n/34.34 (\OML/lmm/m/it/34.34 x[]\OMS/lmsy/m/n/34.34 j\OML/lmm/m/it/3
+4.34 ^^\[]\OT1/lmr/m/n/34.34 (\OML/lmm/m/it/34.34 a\OT1/lmr/m/n/34.34 )) + \U/m
+sb/m/n/34.34 S\OT1/lmr/m/n/34.34 (\OML/lmm/m/it/34.34 x[]\OMS/lmsy/m/n/34.34 j\
+OML/lmm/m/it/34.34 ^^\[]\OT1/lmr/m/n/34.34 (\OML/lmm/m/it/34.34 a\OT1/lmr/m/n/3
+4.34 ))[] \OMS/lmsy/m/n/34.34 ^^@ [][]\U/msb/m/n/34.34 S\OT1/lmr/m/n/34.34 (\OM
+L/lmm/m/it/34.34 x[]\OMS/lmsy/m/n/34.34 j\OML/lmm/m/it/34.34 ^^\[]\OT1/lmr/m/n/
+34.34 ([])) + \U/msb/m/n/34.34 S\OT1/lmr/m/n/34.34 (\OML/lmm/m/it/34.34 x[]\OMS
+/lmsy/m/n/34.34 j\OML/lmm/m/it/34.34 ^^\[]\OT1/lmr/m/n/34.34 ([]))[]
  []
 
 File: example-image-a.pdf Graphic file (type pdf)
@@ -1254,25 +1277,20 @@ File: example-image-c.pdf Graphic file (type pdf)
 File: example-image-golden.pdf Graphic file (type pdf)
 <use example-image-golden.pdf>
 
-Overfull \hbox (18.13626pt too wide) detected at line 239
+Overfull \hbox (18.13626pt too wide) detected at line 256
 [][][] [][][][][][][][][] [][][][][][][][][] [][][][][][][][][] [][][][][][][][
 ][] [][][][][][][] 
  []
 
-LaTeX Font Info:    Calculating math sizes for size <34.34> on input line 239.
-
-LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <34.34> not available
-(Font)              size <24.88> substituted on input line 239.
-
-
-LaTeX Font Warning: Font shape `OMX/cmex/m/n' in size <24.03789> not available
-(Font)              size <24.88> substituted on input line 239.
-
 No file poster.bbl.
 
-Overfull \hbox (18.13626pt too wide) detected at line 239
+Overfull \hbox (18.13626pt too wide) detected at line 256
 [][][] [][][][][][][][][] [][][][][][][][][] [][][][][][][][][] [][][][][][][][
 ][] [][][][][][][] 
+ []
+
+
+Overfull \vbox (144.53691pt too high) detected at line 256
  []
 
 File: WU_hellblau.pdf Graphic file (type pdf)
@@ -1294,11 +1312,11 @@ Overfull \hbox (18.20975pt too wide) has occurred while \output is active
 \tf@snm=\write8
 \openout8 = `poster.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 241.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 241.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 258.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 258.
  (./poster.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 241.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 241.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 258.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 258.
 Package rerunfilecheck Info: File `poster.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
@@ -1308,12 +1326,12 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 29511 strings out of 479819
- 598264 string characters out of 5895845
- 941501 words of memory out of 5000000
- 45988 multiletter control sequences out of 15000+600000
- 560656 words of font info for 76 fonts, out of 8000000 for 9000
+ 29534 strings out of 479819
+ 598926 string characters out of 5895845
+ 950999 words of memory out of 5000000
+ 46009 multiletter control sequences out of 15000+600000
+ 560672 words of font info for 78 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 60i,17n,78p,773b,1328s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,16n,78p,773b,1267s stack positions out of 5000i,500n,10000p,200000b,80000s
 
 Output written on poster.pdf (1 page).

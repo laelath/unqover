@@ -94,6 +94,7 @@
 %  END Set the width of the columns
 %-----------------------------------------------
 
+\newcommand{\avg}{\text{avg}}
 
 %--------------------------------------------------------------------------------------
 %	TITLE SECTION 
@@ -127,13 +128,16 @@
 
 
       \begin{block}{Abstract}
+        We extend the results of UnQover, a recent project that uses large language model-based question answering systems. 
+
+        Uptam, offictibus rem vendipici nonsecest la cullabor moluptas exero quo blam quamentum repudistiam iunda doluptate dolorecta quatem faceaquodit optatum nonse init volori doluptas nam erferch ilique comnihil ma doluptate sanditat ommo temquia nonse sed modicium que vollacillab ius. Uptam, offictibus rem vendipici nonsecest la cullabor moluptas exero quo blam.
         TODO
       \end{block}
       
       \begin{block}{Background}
-        Internal bias in large language models (LLMs) has been a source of frustration and study. 
-        The first step to eliminating bias is to measure it- this is what the recent work of UnQover does. 
-        Essentially, UnQover queries existing question-answer (QA) systems based on LLMs on {\em templates} - basically a paragraph of data and a question regarding that data, but where the subjects and so-called attributes are parameterized. That is, left as variables.
+        Internal bias in large language models (LLMs) such as BERT and its variants has been a source of frustration and study. 
+        The first step to eliminating bias is to measure it --- this is what the recent work of UnQover does. 
+        Essentially, UnQover queries existing LLM-based question-answer (QA) systems on {\em templates} --- consisting of a paragraph of data and a question regarding that data, but where the subjects and so-called attributes are parameterized. That is, left as variables.
         As a short example,
         
 	\begin{figure}
@@ -146,35 +150,52 @@
           \includegraphics[width=.6\linewidth]{instantiated.png}
 	\end{figure}
         
-        These questions are {\em unspecified}, meaning they don't have a correct answer that can be determined from the context. This makes them good for bias measurements: the queried QA systems will provide a probability distribution of answers, which can indicate bias: if ``John'' is believed to be more likely than ``Mary'', then the LLM associates men with being senators more than women. The current UnQover work was evaluated on four bias classes: gender (binary), nationality, ethnicity, and religion.
+        These questions are {\em underspecified}, meaning they don't have a correct answer that can be determined from the context. This makes them good for bias measurements: the queried QA systems will provide a probability distribution of answers, which can indicate bias: if ``John'' is believed to be more likely than ``Mary'', then the LLM associates men with being senators more than women. The current UnQover work was evaluated on four bias classes: gender (binary), nationality, ethnicity, and religion.
         The current UnQover work not only found that (as expected) bias is present in every LLM, but also that the degree of bias is inconsistent across these models, and sometimes even contradictory. 
       \end{block}
       
       \begin{block}{Experiments}
-        We further the evaluation by examining two more classes, level of education and age, as well as inspecting {\em joint distributions} - two (or more) classes at once. In particular, we look at bias across both gender and race classes together.
+        We further the evaluation by examining two more classes, level of education and age, as well as inspecting {\em intersectional bias classes} --- two (or more) classes at once. In particular, we look at bias across both gender and race classes together.
 
-        There are some difficulties with measurements, which we deal with in the same way that the original work did. \\
-        {\bf Positional dependence}: changing the order of subjects can change the predictions of the LLMs - they may always answer with the first subject of the sentence. \\
+        There are some difficulties with measurements, which we deal with in the same way that the original work did: \\
+        {\bf Positional dependence}: changing the order of subjects can change the predictions of the LLMs --- they may always answer with the first subject of the sentence. TODO \\
         {\bf Attribute Independence}: the models may not be using the attribute in the question. To fix this, the UnQover work asks negated forms of the question (i.e. ``Who is not a senator?'') to determine when this occurs.
-
-      \end{block}
-      
-      
-      \begin{block}{Conclusion}
-        We verify that the results of UnQover hold 
       \end{block}
       
     \end{column}
         
     \begin{column}{\sepwid}  \end{column}
-        
+
     \begin{column}{\onecolwid} %The second column
       
       \begin{block}{\vspace*{2.7cm}}
-        %\begin{multicols}{2}
-        Uptam, offictibus rem vendipici nonsecest la cullabor moluptas exero quo blam quamentum repudistiam iunda doluptate dolorecta quatem faceaquodit optatum nonse init volori doluptas nam erferch ilique comnihil ma doluptate sanditat ommo temquia nonse sed modicium que vollacillab ius. Uptam, offictibus rem vendipici nonsecest la cullabor moluptas exero quo blam.
-        %\end{multicols}
+        $\mathbb{S}(x_1|\tau_{1, 2}(a))$ is the weight of the output from the model.
+
+        $x_1, x_2 \in X$ are subjects, $\tau \in T$ are templates, $a \in A$ are attributes.
+        $\overline{a}$ is the negation of the attribute $a$.
+
+        \[
+        \mathbb{B}(x_1 | x_2, a, \tau) = \frac{1}{2} \big[ \mathbb{S}(x_1 | \tau_{1, 2}(a)) + \mathbb{S}(x_1 | \tau_{2, 1}(a)) \big] - \frac{1}{2} \big[ \mathbb{S}(x_1 | \tau_{1, 2}(\overline{a})) + \mathbb{S}(x_1 | \tau_{2, 1}(\overline{a})) \big]
+        \]
+        is the bias measurement on $x_1$, factoring for both positional dependence and attribute independence.
+
+        \[
+        \mathbb{C}(x_1, x_2, a, \tau) = \frac{1}{2} \big[ \mathbb{B}(x_1 | x_2, a, \tau) - \mathbb{B} (x_2 | x_1, a, \tau) \big]
+        \]
+        is the comparative measure of bias score. 
+
+        \[
+        \avg_{x_1 \in X_1} \max_{a \in A} | \avg_{x_2 \in X_2, \tau \in T} \mathbb{C}(x_1, x_2, a, \tau) |
+        \]
+
       \end{block}
+      
+      
+      \begin{block}{Conclusion}
+        We reaffirm the results found by the original UnQover work on new bias classes and intersectional bias classes - much of the biases present in the LLMs are consistent with real-world bias. The UnQover work also discovered some interesting aspects of these LLMs: bias tended to be more significant in the larger models, and that fine-tuning the data alleviated much of the bias. Additionally, bias was sometimes contradictory between models.
+      \end{block}
+
+
       
       \begin{block}{ }
 	\begin{figure}
@@ -185,16 +206,10 @@
           \includegraphics[width=.9\linewidth]{example-image-b}
 	\end{figure}
         
-        \begin{multicols}{2}
           \begin{figure}
             \vspace*{-0.95cm}
             \includegraphics[width=.8\linewidth]{example-image-c}
 	  \end{figure}
-          \begin{figure}
-            \vspace*{-0.95cm}
-            \includegraphics[width=.8\linewidth]{example-image-golden}
-	  \end{figure}
-        \end{multicols}
         
         
       \end{block}
@@ -213,8 +228,8 @@
         \vspace*{-0.5cm}
 	\begin{footnotesize}
 	  \begin{itemize}
-	  \item \href{mailto:email@wu.ac.at}{email@wu.ac.at}
-	  \item \href{http://www.example.com/}{www.example.com} - \href{www.wu.ac.at}{www.wu.ac.at}
+	  \item \href{mailto:jpfrank@umd.edu}{jpfrank@umd.edu}
+	  \item \href{mailto:bquiring@umd.edu}{bquiring@umd.edu}
 	  \end{itemize}
 	\end{footnotesize}	
 	
