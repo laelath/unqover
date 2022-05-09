@@ -158,8 +158,8 @@
         We further the evaluation by examining two more classes, level of education and age, as well as inspecting {\em intersectional bias classes} --- two (or more) classes at once. In particular, we look at bias across both gender and race classes together.
 
         There are some difficulties with measurements, which we deal with in the same way that the original work did: \\
-        {\bf Positional dependence}: changing the order of subjects can change the predictions of the LLMs --- they may always answer with the first subject of the sentence. TODO \\
-        {\bf Attribute Independence}: the models may not be using the attribute in the question. To fix this, the UnQover work asks negated forms of the question (i.e. ``Who is not a senator?'') to determine when this occurs.
+        {\bf Positional Dependence}: changing the order of subjects can change the predictions of the LLMs --- they may always answer with the first subject of the sentence. TODO \\
+        {\bf Attribute Indifference}: the models may not be using the attribute in the question. To fix this, the UnQover work asks negated forms of the question (i.e. ``Who could never be a senator?'') to determine when this occurs.
       \end{block}
       
     \end{column}
@@ -169,24 +169,30 @@
     \begin{column}{\onecolwid} %The second column
       
       \begin{block}{\vspace*{2.7cm}}
-        $\mathbb{S}(x_1|\tau_{1, 2}(a))$ is the weight of the output from the model.
+        $\mathbb{S}(x_1|\tau_{1, 2}(a))$ is the weight of the output from the model for subject $x_1$.
 
         $x_1, x_2 \in X$ are subjects, $\tau \in T$ are templates, $a \in A$ are attributes.
-        $\overline{a}$ is the negation of the attribute $a$.
+        $\overline{a}$ is the negation of the attribute $a$ - this is done to make sure the
+        language model actually cares about the attribute in question.
 
         \[
         \mathbb{B}(x_1 | x_2, a, \tau) = \frac{1}{2} \big[ \mathbb{S}(x_1 | \tau_{1, 2}(a)) + \mathbb{S}(x_1 | \tau_{2, 1}(a)) \big] - \frac{1}{2} \big[ \mathbb{S}(x_1 | \tau_{1, 2}(\overline{a})) + \mathbb{S}(x_1 | \tau_{2, 1}(\overline{a})) \big]
         \]
-        is the bias measurement on $x_1$, factoring for both positional dependence and attribute independence.
+        is the bias measurement on $x_1$, factoring for both positional dependence and attribute indifference.
 
         \[
         \mathbb{C}(x_1, x_2, a, \tau) = \frac{1}{2} \big[ \mathbb{B}(x_1 | x_2, a, \tau) - \mathbb{B} (x_2 | x_1, a, \tau) \big]
         \]
-        is the comparative measure of bias score. 
+        is the comparative measure of bias score.
 
         \[
-        \avg_{x_1 \in X_1} \max_{a \in A} | \avg_{x_2 \in X_2, \tau \in T} \mathbb{C}(x_1, x_2, a, \tau) |
+        \gamma(x_1, a) = \avg_{x_2 \in X_2, \tau \in T} \mathbb{C}(x_1, x_2, a, \tau)
         \]
+        is a measure of the bias towards $x_1$ for attribute $a$ against subjects $X_2$.
+
+        % \[
+        % \avg_{x_1 \in X_1} \max_{a \in A} | \avg_{x_2 \in X_2, \tau \in T} \mathbb{C}(x_1, x_2, a, \tau) |
+        % \]
 
       \end{block}
       
@@ -200,16 +206,18 @@
       \begin{block}{ }
 	\begin{figure}
           \vspace*{-1cm}
-          \includegraphics[width=.9\linewidth]{example-image-a}
+          \includegraphics[width=.55\linewidth]{BERT(base)-LM.png}
+          \caption{BERT (base) with no finetuning}
 	\end{figure}
 	\begin{figure}
-          \includegraphics[width=.9\linewidth]{example-image-b}
+          \includegraphics[width=.55\linewidth]{BERT(base)-SQuAD.png}
+          \caption{BERT (base) with SQuAD finetuning}
 	\end{figure}
         
-          \begin{figure}
-            \vspace*{-0.95cm}
-            \includegraphics[width=.8\linewidth]{example-image-c}
-	  \end{figure}
+   %        \begin{figure}
+   %          \vspace*{-0.95cm}
+   %          \includegraphics[width=.8\linewidth]{example-image-c}
+	  % \end{figure}
         
         
       \end{block}
