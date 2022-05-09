@@ -147,7 +147,7 @@
           \includegraphics[width=.6\linewidth]{instantiated.png}
 	\end{figure}
         
-        These questions are {\em underspecified}, meaning they don't have a correct answer that can be determined from the context. This makes them good for bias measurements: the queried QA systems will provide a probability distribution of answers for this question, and in particular associated with the answers ``John'' and ``Mary'' are probabilities: if ``John'' is likely than ``Mary'', then (generalizing) the LLM associates men with being senators more than women. The current UnQover work evaluated four bias classes: gender (binary), nationality, ethnicity, and religion.
+        These questions are {\em underspecified}, meaning they don't have a correct answer that can be determined from the context. This makes them good for bias measurements: the queried QA systems will provide a probability distribution of answers for this question, and in particular probabilities associated with the answers ``John'' and ``Mary'': if ``John'' is more likely than ``Mary'', then (generalizing) the LLM associates men with being senators more than women. The current UnQover work evaluated four bias classes: gender (binary), nationality, ethnicity, and religion.
         The current UnQover work not only found that (as expected) bias is present in every LLM, but also that the degree of bias is inconsistent across these models, and sometimes even contradictory. 
 
         As an example, consider the plots from the UnQover demo in Figures 1 and 2.
@@ -182,7 +182,7 @@
         \[
         \mathbb{C}(x_1, x_2, a, \tau) = \frac{1}{2} \big[ \mathbb{B}(x_1 | x_2, a, \tau) - \mathbb{B} (x_2 | x_1, a, \tau) \big]
         \]
-        Finally, we can measure the bias between $x_1$ and $a$ with an average
+        Finally, we can measure the bias towards $x_1$ against group $X_2$ for attribute $a$ with an average
         \[
         \gamma(x_1, a) = \avg_{x_2 \in X_2, \tau \in T} \ \mathbb{C}(x_1, x_2, a, \tau)
         \]
