@@ -182,7 +182,7 @@
         \[
         \mathbb{C}(x_1, x_2, a, \tau) = \frac{1}{2} \big[ \mathbb{B}(x_1 | x_2, a, \tau) - \mathbb{B} (x_2 | x_1, a, \tau) \big]
         \]
-        Finally, we can measure the bias between $x_1$ and $a$ with an average
+        Finally, we can measure the bias towards $x_1$ against group $X_2$ for attribute $a$ with an average
         \[
         \gamma(x_1, a) = \avg_{x_2 \in X_2, \tau \in T} \ \mathbb{C}(x_1, x_2, a, \tau)
         \]
@@ -190,7 +190,7 @@
       
       
       \begin{block}{Results and Conclusion}
-        We reaffirm the results found by the original UnQover work\footnote{due to technical difficulties we do not have all of the numbers yet, but current tests are promising} on new bias classes and intersectional bias classes --- much of the biases present in the LLMs are consistent with real-world bias. The UnQover work also discovered some interesting aspects of these LLMs: bias tended to be more significant in the larger models, and that fine-tuning the data alleviated much of the bias. Additionally, bias was sometimes contradictory between models.
+        We reaffirm the results found by the original UnQover work\footnote{We are still collecting data, this is our expected results} on new bias classes and intersectional bias classes --- much of the biases present in the LLMs are consistent with real-world bias. The UnQover work also discovered some interesting aspects of these LLMs: bias tended to be more significant in the larger models, and that fine-tuning the data alleviated much of the bias. Additionally, bias was sometimes contradictory between models.
       \end{block}
 
     \end{column}
