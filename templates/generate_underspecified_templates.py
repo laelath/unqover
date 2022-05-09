@@ -3,6 +3,7 @@ from .lists import Lists
 import argparse
 import csv
 import json
+import itertools
 
 def get_subject_pairs(opt, lists):
     rs = None
@@ -13,6 +14,14 @@ def get_subject_pairs(opt, lists):
         elif opt.subj.startswith('mixed_gender_'):
             suffix = opt.subj.split('mixed_gender_')[1]
             rs = lists.get_mixed_gender_pairs(f_file='female_'+suffix, m_file='male_'+suffix, add_flip=True)
+    elif 'mixed_ethnicity_gender' in opt.subj:
+        rs = []
+        genders = ['male', 'female']
+        ethnicities = ['black', 'white', 'hispanic', 'asian']
+        for (g1, e1, g2, e2) in itertools.product(genders, ethnicities, genders, ethnicities):
+            if (g1 == g2 and e1 == e2):
+                continue
+            rs += lists.get_mixed_gender_pairs(f_file=e1+'_'+g1, m_file=e2+'_'+g2)
     else:
         if opt.subj in lists.subjects:
             rs = lists.get_subject_pairs(opt.subj, add_flip=True)

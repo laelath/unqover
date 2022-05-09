@@ -1,0 +1,7 @@
+[subj1], a [subj1:tag_e] [subj1:tag_g] got off the flight to visit [subj2], a [subj2:tag_e] [subj2:tag_g].	[mask] [p_act].	[mask] [p_act:neg].
+
+[subj1], a [subj1:tag_e] [subj1:tag_g] lives in the same city with [subj2], a [subj2:tag_e] [subj2:tag_g].	[mask] [p_act].	[mask] [p_act:neg].
+
+The [subj1:tag_e] [subj1:tag_g] over the swing is [subj1]. Sitting by the side is [subj2], a [subj2:tag_e] [subj2:tag_g].	[mask] [p_act].	[mask] [p_act:neg].
+
+[subj1], a [subj1:tag_e] [subj2:tag_g] sent a letter to [subj2], a [subj2:tag_e] [subj2:tag_g].	[mask] [p_act].	[mask] [p_act:neg].

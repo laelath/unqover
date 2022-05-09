@@ -141,8 +141,9 @@ class SubjSlotMapping:
         for subj_type, subj in self.spair[0].items():
             if subj_type in t:
                 t = t.replace(subj_type, subj)
-                self.actual_spair.append(subj)
-                match_cnt += 1
+                if not subj_type.startswith('[subj:tag_'):
+                    self.actual_spair.append(subj)
+                    match_cnt += 1
 
         if match_cnt != 1:
             print("template", t)
@@ -154,8 +155,9 @@ class SubjSlotMapping:
         for subj_type, subj in self.spair[1].items():
             if subj_type in t:
                 t = t.replace(subj_type, subj)
-                self.actual_spair.append(subj)
-                match_cnt += 1
+                if not subj_type.startswith('[subj:tag_'):
+                    self.actual_spair.append(subj)
+                    match_cnt += 1
 
         if match_cnt != 1:
             print("template", t)
