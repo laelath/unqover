@@ -53,7 +53,7 @@ do
            ;;
        "gender_ethnicity")
            SUBJ=mixed_ethnicity_gender
-           SLOT=gender_ethnicity
+           SLOT=gender_ethnicity_noact
            ACT=occupation_rev1
            ;;
         "country" | "religion" | "ethnicity" | "sexuality")

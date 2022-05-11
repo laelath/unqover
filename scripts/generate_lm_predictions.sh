@@ -68,7 +68,7 @@ do
            ;;
        "gender_ethnicity")
            SUBJ=mixed_ethnicity_gender_${M_FAMILY}
-           SLOT=gender_ethnicity
+           SLOT=gender_ethnicity_noact_lm
            ACT=occupation_rev1
            USE_HESHE=0
            ;;
