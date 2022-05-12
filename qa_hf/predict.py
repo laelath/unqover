@@ -11,6 +11,8 @@ from utils.extract import get_tokenizer, tokenize_underspecified_input
 from transformers import *
 import json
 
+import pdb
+
 parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
 parser.add_argument('--dir', help="Path to the data dir", default="./data/")
@@ -177,9 +179,14 @@ def forward(opt, m, tok_idx, att_mask, type_idx):
 	# use type_idx only when using pre-trained bert-large
 	#	Other models either do not accept type_idx, or we trained them without it (which turns out doesn't matter much to test F1)
 	if opt.hf_model == 'bert-large-uncased-whole-word-masking-finetuned-squad':
-		start_scores, end_scores = m(tok_idx, att_mask, type_idx)
+		output = m(tok_idx, att_mask, type_idx)
+		start_scores = output.start_logits
+		end_scores = output.end_logits
 	else:
-		start_scores, end_scores = m(tok_idx, att_mask)
+		output = m(tok_idx, att_mask)
+		start_scores = output.start_logits
+		end_scores = output.end_logits
+
 	return torch.nn.functional.softmax(start_scores, dim=-1), torch.nn.functional.softmax(end_scores, dim=-1)
 
 
