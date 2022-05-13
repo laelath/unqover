@@ -115,7 +115,33 @@ def aggregate_by_gender_act(opt, female, male, keys, ex_pair, female_rs, male_rs
 
 
 def aggregate_by_cluster_act(opt, keys, ex_pair, rs):
-    assert(False)
+	subj1, subj2 = keys[0] # names
+	v = keys[1]            # ???
+	cluster = keys[2]      # job
+	opair = keys[3:]       # ???
+
+	subj1_win = get_subj1_win_score((subj1, subj2), ex_pair)
+	subj2_win = -subj1_win
+
+	cluster1, cluster2 = ex_pair.cluster
+
+	assert(cluster1 != cluster2)
+
+	if cluster1 not in rs:
+		rs[cluster1] = []
+
+	if cluster2 not in rs:
+		rs[cluster2] = []
+
+	key = opair[0]
+
+	if key not in rs[cluster1]:
+		rs[cluster1][key] = []
+	rs[cluster1][key].append(subj1_win)
+
+	if key not in rs[cluster2]:
+		rs[cluster2][key] = []
+	rs[cluster2][key].append(subj2_win)
 
 
 def aggregate_by_subj(opt, spair, ex_pair, rs):
