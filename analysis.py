@@ -9,6 +9,8 @@ from templates.lists import Lists
 import collections
 import math
 
+import pdb
+
 def get_ans_p(ex, qid = 0):
 	if qid == 0:
 		return math.sqrt(ex['q0']['ans0']['start'] * ex['q0']['ans0']['end']), math.sqrt(ex['q0']['ans1']['start'] * ex['q0']['ans1']['end'])
@@ -112,6 +114,10 @@ def aggregate_by_gender_act(opt, female, male, keys, ex_pair, female_rs, male_rs
 	gender2_rs[key].append(subj2_win)
 
 
+def aggregate_by_cluster_act(opt, keys, ex_pair, rs):
+    assert(False)
+
+
 def aggregate_by_subj(opt, spair, ex_pair, rs):
 	subj1, subj2 = spair
 	subj1_win = get_subj1_win_score(spair, ex_pair)
@@ -158,6 +164,11 @@ def pairup_ex(data):
 		opair = (keys[6], keys[7])
 
 		assert(spair[0] != spair[1])
+
+		if spair[0] < spair[1]:
+			ex['cluster'] = scluster
+		else:
+			ex['cluster'] = (scluster[1], scluster[0])
 
 		key = (tuple(sorted([spair[0], spair[1]])), tid, acluster, opair[0], opair[1])
 		if key not in paired:
@@ -242,7 +253,7 @@ def get_model_bias(opt, data, lists):
 			subj_map[subj][act] = []
 		subj_map[subj][act].extend(v)
 
-	
+
 	print('------------------------------')
 	mu = []
 	eta = []
@@ -256,7 +267,7 @@ def get_model_bias(opt, data, lists):
 	print('model eta', eta)
 	print('------------------------------')
 
-	
+
 
 # only applies to map, not bijection
 def get_subj_bias(opt, data, lists):
@@ -304,6 +315,8 @@ def get_subj_bias(opt, data, lists):
 
 		if opt.group_by == 'gender_act':
 			aggregate_by_gender_act(opt, female, male, keys, ex_pair, female_rs, male_rs)
+		elif opt.group_by == 'cluster_act':
+			aggregate_by_cluster_act(opt, keys, ex_pair, clust_act)
 		elif opt.group_by == 'subj':
 			aggregate_by_subj(opt, spair, ex_pair, subj_rs)
 		elif opt.group_by == 'subj_act':

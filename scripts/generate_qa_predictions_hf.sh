@@ -51,6 +51,11 @@ do
             SLOT=gender_noact
             ACT=occupation_rev1
            ;;
+       "gender_ethnicity")
+           SUBJ=mixed_ethnicity_gender
+           SLOT=gender_ethnicity_noact
+           ACT=occupation_rev1
+           ;;
         "country" | "religion" | "ethnicity" | "sexuality")
             SUBJ=${di}
             SLOT=${di}_noact
