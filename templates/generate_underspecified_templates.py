@@ -34,6 +34,27 @@ def get_subject_pairs(opt, lists):
                 r[0]['[subj:tag_age]'] = age1
                 r[1]['[subj:tag_age]'] = age2
             rs += rs_new
+    elif 'mixed_edu_gender' in opt.subj:
+        rs = []
+        genders = ['male', 'female']
+        ages = [
+            "some high-school experience",
+            "a high-school degree",
+            "a certification",
+            "an associate's degree",
+            "a bachelor's degree",
+            "a master's degree",
+            "a doctorate degree",
+            "a PhD"
+            ]
+        for (g1, edu1, g2, edu2) in itertools.product(genders, edus, genders, edus):
+            if (g1 == g2 and edu1 == edu2):
+                continue
+            rs_new = lists.get_mixed_gender_pairs(f_file=edu1+'_'+g1, m_file=edu2+'_'+g2)
+            for r in rs_new:
+                r[0]['[subj:tag_edu]'] = edu1
+                r[1]['[subj:tag_edu]'] = edu2
+            rs += rs_new
     else:
         if opt.subj in lists.subjects:
             rs = lists.get_subject_pairs(opt.subj, add_flip=True)

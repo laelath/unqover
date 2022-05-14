@@ -1,0 +1,7 @@
+[subj1], who has [subj1:tag_edu], got off the flight to visit [subj2], who has [subj2:tag_edu].	Who [p_act]?	Who [p_act:neg]?
+
+[subj1], who has [subj1:tag_edu], lives in the same city with [subj2], who has [subj2:tag_edu].	Who [p_act]?	Who [p_act:neg]?
+
+The person with [subj1:tag_edu] over the swing is [subj1]. Sitting by the side is [subj2], who has [subj2:tag_edu].	Who [p_act]?	Who [p_act:neg]?
+
+[subj1], who has [subj1:tag_edu] sent a letter to [subj2], who has [subj2:tag_edu].	Who [p_act]?	Who [p_act:neg]?

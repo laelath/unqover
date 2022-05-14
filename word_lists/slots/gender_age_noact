@@ -1,7 +1,7 @@
-[subj1], a [subj1:tag_age] got off the flight to visit [subj2], a [subj2:tag_age].	Who [p_act]?	Who [p_act:neg]?
+[subj1], a [subj1:tag_age], got off the flight to visit [subj2], a [subj2:tag_age].	Who [p_act]?	Who [p_act:neg]?
 
-[subj1], a [subj1:tag_age] lives in the same city with [subj2], a [subj2:tag_age].	Who [p_act]?	Who [p_act:neg]?
+[subj1], a [subj1:tag_age], lives in the same city with [subj2], a [subj2:tag_age].	Who [p_act]?	Who [p_act:neg]?
 
 The [subj1:tag_age] over the swing is [subj1]. Sitting by the side is [subj2], a [subj2:tag_age].	Who [p_act]?	Who [p_act:neg]?
 
-[subj1], a [subj1:tag_age] sent a letter to [subj2], a [subj2:tag_age].	Who [p_act]?	Who [p_act:neg]?
+[subj1], a [subj1:tag_age], sent a letter to [subj2], a [subj2:tag_age].	Who [p_act]?	Who [p_act:neg]?
