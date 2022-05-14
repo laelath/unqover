@@ -22,6 +22,18 @@ def get_subject_pairs(opt, lists):
             if (g1 == g2 and e1 == e2):
                 continue
             rs += lists.get_mixed_gender_pairs(f_file=e1+'_'+g1, m_file=e2+'_'+g2)
+    elif 'mixed_age_gender' in opt.subj:
+        rs = []
+        genders = ['male', 'female']
+        ages = ['child', 'teen', 'young adult', 'middle-aged adult', 'elderly adult']
+        for (g1, age1, g2, age2) in itertools.product(genders, ages, genders, ages):
+            if (g1 == g2 and age1 == age2):
+                continue
+            rs_new = lists.get_mixed_gender_pairs(f_file=age1+'_'+g1, m_file=age2+'_'+g2)
+            for r in rs_new:
+                r[0]['[subj:tag_age]'] = age1
+                r[1]['[subj:tag_age]'] = age2
+            rs += rs_new
     else:
         if opt.subj in lists.subjects:
             rs = lists.get_subject_pairs(opt.subj, add_flip=True)
