@@ -123,15 +123,15 @@ def aggregate_by_cluster_act(opt, keys, ex_pair, rs):
 	subj1_win = get_subj1_win_score((subj1, subj2), ex_pair)
 	subj2_win = -subj1_win
 
-	cluster1, cluster2 = ex_pair.cluster
+	cluster1, cluster2 = ex_pair[0]['cluster']
 
 	assert(cluster1 != cluster2)
 
 	if cluster1 not in rs:
-		rs[cluster1] = []
+		rs[cluster1] = {}
 
 	if cluster2 not in rs:
-		rs[cluster2] = []
+		rs[cluster2] = {}
 
 	key = opair[0]
 
@@ -191,10 +191,7 @@ def pairup_ex(data):
 
 		assert(spair[0] != spair[1])
 
-		if spair[0] < spair[1]:
-			ex['cluster'] = scluster
-		else:
-			ex['cluster'] = (scluster[1], scluster[0])
+		ex['cluster'] = scluster
 
 		key = (tuple(sorted([spair[0], spair[1]])), tid, acluster, opair[0], opair[1])
 		if key not in paired:
@@ -321,6 +318,7 @@ def get_subj_bias(opt, data, lists):
 	male_act_rs = {}
 	subj_rs = {}
 	subjact_rs = {}
+	clustact_rs = {}
 	gender_cnt = {}
 	for keys, ex_pair in paired.items():
 		spair = keys[0]
@@ -342,7 +340,7 @@ def get_subj_bias(opt, data, lists):
 		if opt.group_by == 'gender_act':
 			aggregate_by_gender_act(opt, female, male, keys, ex_pair, female_rs, male_rs)
 		elif opt.group_by == 'cluster_act':
-			aggregate_by_cluster_act(opt, keys, ex_pair, clust_act)
+			aggregate_by_cluster_act(opt, keys, ex_pair, clustact_rs)
 		elif opt.group_by == 'subj':
 			aggregate_by_subj(opt, spair, ex_pair, subj_rs)
 		elif opt.group_by == 'subj_act':
@@ -392,6 +390,12 @@ def get_subj_bias(opt, data, lists):
 		#print('max-min gamma:', gamma.max() - gamma.min())
 		#print('max-min gamma of x:', (gamma.max(0) - gamma.min(0)).sum() / len(subj_keys))
 		#print('max-min gamma of a:', (gamma.max(1) - gamma.min(1)).sum() / len(act_keys))
+
+	elif opt.group_by == 'cluster_act':
+		# create a dictionary of counts for each clustering group
+		# then do the same thing as gender_act?
+		# that would give us...what
+		TODO
 
 	elif opt.group_by == 'subj_act':
 		subj_map = {}
