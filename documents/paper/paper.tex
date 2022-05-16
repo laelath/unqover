@@ -7,6 +7,7 @@
 % ready for submission
  \usepackage{neurips_2020}
 
+\usepackage{graphicx}
 % to compile a preprint version, e.g., for submission to arXiv, add add the
 % [preprint] option:
 %     \usepackage[preprint]{neurips_2020}
@@ -50,7 +51,7 @@
 \maketitle
 
 \begin{abstract}
-  We extend the results of UnQover, a recent project that uses large language model-based question answering systems. Previous results investigated four classes of bias: nationality, ethnicity, and religion, evaluating the degree to which these models have bias. We seek to validate their results in the broader setting of intersectional bias classes, adding both age and level of education to the analysis.
+  We extend the results of UnQover, a recent project that uses large language model-based question answering systems. Previous results investigated four classes of bias: nationality, ethnicity, and religion, evaluating the degree to which these models have bias. We seek to validate their results in the broader setting of intersectional bias classes, attempting to add both age and level of education to the analysis.
 \end{abstract}
 
 \section{Introduction}
@@ -132,10 +133,31 @@ Finally, we can measure the bias towards $x_1$ against group $X_2$ for attribute
 \]
 This computes an aggregate measurement of the bias towards $x_2$ for a certain attribute $a$.
 
+To compute an aggregate measurement of bias for the whole model, we want to take the average magnitude of these $\gamma$ values across all subjects and attributes:
+\[
+\mu = \avg_{x_1 \in X_1} \max_{a \in A} |\gamma(x_1, a)|
+\]
+Models which have a higher $\mu$ have more bias, on average. In the UnQover work this measurement was used to demonstrate a decrease in the degree of bias when fine-tuning. 
 
 \section{Results}
 
+Figure 1 contains the original scores from UnQover for $\mu$ for gender and ethnicity, and Figure 2 contains the scores for our tests on intersectional bias between gender and ethinicity. The results are surprising in a number of ways --- first of all, in the original UnQover work they found that gender had a larger average magnitude of bias than ethnicity. Our results demonstrate that the intersectional bias has a lower $\mu$, more comparable to that of the ethnicity class than the gender one. Additionally, for BERT base and large, there was a noticeable decrease in bias --- in BERT large it almost decreased to $0$, in fact. This does not coincide with our intuitions at all: why would looking at bias classes in conjunction reduce the bias score to $0$? We don't have an answer to this question. We expected bias to be more aligned with the maximum of the scores of the two bias classes, not the minimum.
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{theirs}
+  \caption{Original UnQover results}
+\end{figure}
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.5\textwidth]{ours}
+  \caption{Intersectional Gender and Ethinicity}
+\end{figure}
+
+
+\subsection{Uncovering UnQovering}
+
+JUSTIN:TODO describe issues
 
 \section{Related work}
 
@@ -147,8 +169,7 @@ The other half of the bias problem, how to mitigate it, is also actively studied
 
 \section{Conclusion}
 
-
-
+In this work we examined intersectional bias by using the UnQover framework, which evaluates LLM-based QA systems on underspecified questions, using any preference for answer as a basis for bias. Intersectional bias appears to not behave in expected ways. Future work includes heavily modifying the source code base to further evaluate on other intersectional biases. 
 
 \bibliographystyle{plain}
 \bibliography{bib}
