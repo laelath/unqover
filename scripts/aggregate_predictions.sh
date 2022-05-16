@@ -64,7 +64,7 @@ do
 		fi
 
 		echo ">> Input file "${FILE}.output.json
-	
+
 		python3 analysis.py \
 			--metrics $metrics \
 			--input ./data/${FILE}.output.json \

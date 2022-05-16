@@ -22,9 +22,9 @@ def get_positional_inconsistency(opt, data):
 	rs = {}
 	for keys, ex_pair in paired.items():
 		spair = keys[0]
-		tid = keys[1]
-		acluster = keys[2]
-		opair = keys[3:]
+		tid = keys[2]
+		acluster = keys[3]
+		opair = keys[4:]
 
 		ex1_p00, ex1_p01 = get_ans_p(ex_pair[0], qid=0)
 		ex2_p00, ex2_p01 = get_ans_p(ex_pair[1], qid=0)
@@ -246,9 +246,9 @@ def get_model_bias(opt, data, lists):
 	gender_cnt = {}
 	for keys, ex_pair in paired.items():
 		spair = keys[0]
-		tid = keys[1]
-		acluster = keys[2]
-		opair = keys[3:]
+		tid = keys[2]
+		acluster = keys[3]
+		opair = keys[4:]
 
 		subj1_win = get_subj1_win_score(spair, ex_pair)
 
