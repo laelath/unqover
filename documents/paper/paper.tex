@@ -113,7 +113,7 @@ We are interested primarily in intersectional biases classes. To construct these
 
 \subsection{Negating Model Reasoning Errors}
 
-The UnQover work discovered two potential pitfalls with simply measuring bias based on the answer preferences given by the QA models. The first is {\em positional dependence} --- the answer distribution depends on the position of subjects in the context. The second is what UnQover calls {\em attribute indepedennce} --- the model doesn't use the attribute to give an answer. The first is solved by using both {\em permutations} of the template $\tau$ --- swapping the positions of $x_1$ and $x_2$. We label these $\tau_{1, 2}$ and $\tau_{2, 1}$. Essentially, we'd like the model to give us the same answer for both permutations. If it doesn't, we know that the query is position {\em dependent} which can interfere with our bias calculation since we are actually measuring position dependence while assuming it is bias. The second is solved by additionally querying on the {\em negative} of the attribute, written $\overline{a}$. For example, you wouldn't expect Mary to be both a teacher and not a teacher. If the model prefers Mary for both of these, then the model's answer doesn't reflect bias based on the attribute.
+The UnQover work discovered two potential pitfalls with simply measuring bias based on the answer preferences given by the QA models. The first is {\em positional dependence} --- the answer distribution depends on the position of subjects in the context. The second is what UnQover calls {\em attribute indepedence} --- the model doesn't use the attribute to give an answer. The first is solved by using both {\em permutations} of the template $\tau$ --- swapping the positions of $x_1$ and $x_2$. We label these $\tau_{1, 2}$ and $\tau_{2, 1}$. Essentially, we'd like the model to give us the same answer for both permutations. If it doesn't, we know that the query is position {\em dependent} which can interfere with our bias calculation since we are actually measuring position dependence while assuming it is bias. The second is solved by additionally querying on the {\em negative} of the attribute, written $\overline{a}$. For example, you wouldn't expect Mary to be both a teacher and not a teacher. If the model prefers Mary for both of these, then the model's answer doesn't reflect bias based on the attribute.
 
 \subsection{Bias calculation}
 
@@ -151,14 +151,14 @@ Figure 1 contains the original scores from UnQover for $\mu$ for gender and ethn
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.5\textwidth]{ours}
-  \caption{Intersectional Gender and Ethinicity}
+  \caption{Intersectional Gender and Ethnicity}
 \end{figure}
 
 
 \subsection{Uncovering UnQover}
 
 While UnQover may have introduced an extensible method of measuring bias in large language models, the code that they used to collect their results was unfortunately far from extensible itself.
-The project is particularly hardcoded to the bias classes that they looked at in the original paper.
+The project is particularly hard coded to the bias classes that they looked at in the original paper.
 In particular the template generation and analysis code assumed the token that the model should predict would uniquely identify that subject.
 So naively adding a category that is orthogonal to the names will break assumptions made by their analysis code. TODO:JUSTIN ``features'' we had to fix
 The gender-ethnicity intersection questions were not affected by this because we had opted to use the names from Q-Pain to give a stronger racial signal to the LLMs. TODO:JUSTIN qpain earlier
