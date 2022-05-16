@@ -51,12 +51,12 @@
 \maketitle
 
 \begin{abstract}
-  We extend the results of UnQover, a recent project that uses large language model-based question answering systems. Previous results investigated four classes of bias: nationality, ethnicity, and religion, evaluating the degree to which these models have bias. We seek to validate their results in the broader setting of intersectional bias classes, attempting to add both age and level of education to the analysis.
+  We extend the results of UnQover, a recent project that uses large language model-based question answering systems. Previous results investigated four classes of bias: gender, nationality, ethnicity, and religion, evaluating the degree to which these models have bias. We seek to validate their results in the broader setting of intersectional bias classes, attempting to add both age and level of education to the analysis.
 \end{abstract}
 
 \section{Introduction}
 That fact that bias exists in language models is well known, and becoming well studied. 
-Recent work done in UnQover \cite{UnQover} presents a framework that quantifies bias querying these question answering (QA) systems on so-called {\em underspecified} questions --- questions which have no true answer. Such queries consist of a short paragraph containing a minimal amount of context that identifies the subjects, and a question, for which there exists no correct answer. Any answer to such a question thus suggests bias. As an example, the following question probes racial stereotypes.
+Recent work done in UnQover \cite{UnQover} presents a general framework that quantifies bias by querying these question answering (QA) systems on so-called {\em underspecified} questions --- questions which have no true answer. Such queries consist of a short paragraph containing a minimal amount of context that identifies the subjects, and a question, for which there exists no correct answer based on the paragraph of data. Any preference for an answer to such a question thus suggests bias. As an example, the following question probes racial stereotypes.
 \[
 \begin{array}{|l|}
   \hline
@@ -67,13 +67,13 @@ Recent work done in UnQover \cite{UnQover} presents a framework that quantifies 
 \]
 Any answer a QA system provides indicates a preference for associating college graduates with one race over another.
 We seek to extend the study of UnQover by examining intersectional bias classes --- two (or more) bias classes at once.
-
+It's well known that observed bias in the world can change depending on the intersection of two different bias groups. For example, in the Q-Pain dataset (\cite{qpain}) it was found that black women in particular were excluded from pain medication, more than just women or just black people, because of how the stereotypes combined. We wanted to measure how that is reflected in the LLMs. 
 
 \section{Experiments}
 
 \subsection{Underspecified queries}
 
-To construct underspecified queries we begin with a type subjects, for example (binary) gender, which contains $\{male, female\}$. For each of these we have a class of examples. As an example, ``John'' for ``male'' and ``Mary'' for ``female''. We'd like to probe some model's bias towards various attributes --- in this example we'll use occupations --- $\{teacher, etc\}$. We then define a {\em template} $\tau$ that contains three {\em holes}: two for subjects $x_1$ and $x_2$ and one for attributes $a$. We can then instantiate all sentences by iterating over the set of subjects and attributes. 
+To construct underspecified queries we begin with a type of subjects, for example (binary) gender, which contains $\{male, female\}$. For each of these we have a class of nouns. As an example, ``John'' for ``male'' and ``Mary'' for ``female''. We'd like to probe some model's bias towards various attributes --- in this example we'll use occupations --- $\{teacher, etc\}$. We then define a {\em template} $\tau$ that contains three {\em holes}: two for subjects $x_1$ and $x_2$ and one for an attribute $a$. We can then instantiate all sentences by iterating over the set of subjects and attributes, and filling in the holes of the template. 
 
 Concretely, using the example from UnQover, the following is the template $\tau$
 \[
@@ -84,7 +84,7 @@ Concretely, using the example from UnQover, the following is the template $\tau$
   \hline
 \end{array}
 \]
-we can then instantiate this template with our examples:
+We can then instantiate this template with our examples:
 \[
 \begin{array}{|l|}
   \hline
@@ -100,7 +100,7 @@ Templates are designed such that:
 \item The set of attributes was chosen so that preferring any subject over another would be unfair.
 \end{itemize}
 
-We are interested primarily in intersectional biases classes. To construct these we take two classes of subjects and take their product. For example, each male and female paired with each ethnicity:
+We are interested primarily in intersectional biases classes. To construct these we take two classes of subjects and take their product. For example, each male and female entity paired with each ethnicity:
 \[
 \begin{array}{|l|}
   \hline
@@ -113,17 +113,17 @@ We are interested primarily in intersectional biases classes. To construct these
 
 \subsection{Negating Model Reasoning Errors}
 
-The UnQover work discovered two potential pitfalls with simply measuring bias based on the probability given by the QA models. The first is {\em positional dependence} --- the distribution depends on the position of subjects in the context. The second is what UnQover calls {\em attribute indepence} --- the model doesn't use the attribute to give an answer. The first is solved by using both {\em permutations} of the template $\tau$ --- swapping the positions of $x_1$ and $x_2$. We label these $\tau_{1, 2}$ and $\tau_{2, 1}$. Essentially, we'd like the model to give us the same answer for both permutations. The second is solved by additionally querying on the {\em negative} of the attribute, written $\overline{a}$. For example, you wouldn't expect Mary to be both a teacher and not a teacher.
+The UnQover work discovered two potential pitfalls with simply measuring bias based on the answer preferences given by the QA models. The first is {\em positional dependence} --- the answer distribution depends on the position of subjects in the context. The second is what UnQover calls {\em attribute indepedennce} --- the model doesn't use the attribute to give an answer. The first is solved by using both {\em permutations} of the template $\tau$ --- swapping the positions of $x_1$ and $x_2$. We label these $\tau_{1, 2}$ and $\tau_{2, 1}$. Essentially, we'd like the model to give us the same answer for both permutations. If it doesn't, we know that the query is position {\em dependent} which can interfere with our bias calculation since we are actually measuring position dependence while assuming it is bias. The second is solved by additionally querying on the {\em negative} of the attribute, written $\overline{a}$. For example, you wouldn't expect Mary to be both a teacher and not a teacher. If the model prefers Mary for both of these, then the model's answer doesn't reflect bias based on the attribute.
 
 \subsection{Bias calculation}
 
-Let $\mathbb{S}(x_1|\tau_{1, 2}(a))$ be the answer probability returned by the model for subject $x_1$ in $\tau_{1, 2}$ with attribute $a$.
-Next, we compute the initial bias measurement for subject $x_1$ factoring for both positional dependence and attribute indifference --- $\tau_{1,2}$ is one permutation and $\tau_{2, 1}$ is the other.
+Let $\mathbb{S}(x_1|\tau_{1, 2}(a))$ be the answer preference returned by the model for subject $x_1$ in $\tau_{1, 2}$ with attribute $a$.
+Next, we compute the initial bias measurement $\mathbb{B}$ for subject $x_1$ factoring for both positional dependence and attribute indifference --- $\tau_{1,2}$ is one permutation and $\tau_{2, 1}$ is the other.
 \[
 \mathbb{B}(x_1 | x_2, a, \tau) = \frac{1}{2} \big[ \mathbb{S}(x_1 | \tau_{1, 2}(a)) + \mathbb{S}(x_1 | \tau_{2, 1}(a)) \big] - \frac{1}{2} \big[ \mathbb{S}(x_1 | \tau_{1, 2}(\overline{a})) + \mathbb{S}(x_1 | \tau_{2, 1}(\overline{a})) \big]
 \]
-As UnQover discussed, this quantity is invariant under attribute negation and permuting subjects.
-Next is to compare the scores for two different subjects, so as to measure the bias towards one or the other. The comparative measure of bias score between two subjects $x_1$ and $x_2$
+As UnQover discussed, this quantity is invariant under attribute negation and permuting subjects, thus correcting for error.
+Next is to compare the scores for two different subjects, so as to measure the bias towards one or the other. The comparative measure of bias score $\mathbb{C}$ between two subjects $x_1$ and $x_2$ is
 \[
 \mathbb{C}(x_1, x_2, a, \tau) = \frac{1}{2} \big[ \mathbb{B}(x_1 | x_2, a, \tau) - \mathbb{B} (x_2 | x_1, a, \tau) \big]
 \]
@@ -141,7 +141,7 @@ Models which have a higher $\mu$ have more bias, on average. In the UnQover work
 
 \section{Results}
 
-Figure 1 contains the original scores from UnQover for $\mu$ for gender and ethnicity, and Figure 2 contains the scores for our tests on intersectional bias between gender and ethinicity. The results are surprising in a number of ways --- first of all, in the original UnQover work they found that gender had a larger average magnitude of bias than ethnicity. Our results demonstrate that the intersectional bias has a lower $\mu$, more comparable to that of the ethnicity class than the gender one. Additionally, for BERT base and large, there was a noticeable decrease in bias --- in BERT large it almost decreased to $0$, in fact. This does not coincide with our intuitions at all: why would looking at bias classes in conjunction reduce the bias score to $0$? We don't have an answer to this question. We expected bias to be more aligned with the maximum of the scores of the two bias classes, not the minimum.
+Figure 1 contains the original scores from UnQover for $\mu$ for gender and ethnicity, and Figure 2 contains the scores for our tests on intersectional bias between gender and ethnicity. The results are surprising in a number of ways --- first of all, in the original UnQover work they found that gender had a larger average magnitude of bias than ethnicity. Our results demonstrate that the intersectional bias has a lower $\mu$, more comparable to that of the ethnicity class than the gender one. Additionally, for BERT base and large, there was a noticeable decrease in bias --- in BERT large it almost decreased to $0$, in fact. This does not coincide with our intuitions at all: why would looking at bias classes in conjunction reduce the bias score to $0$? We don't have an answer to this question. We expected bias to be more aligned with the maximum of the scores of the two bias classes, not the minimum.
 
 \begin{figure}[h]
   \centering
@@ -157,16 +157,15 @@ Figure 1 contains the original scores from UnQover for $\mu$ for gender and ethn
 
 \subsection{Uncovering UnQover}
 
-While UnQover may introduce an extensible method of measuring bias in large language models, the code that they used to collect their results was unfortunately far from extensible itself.
-The project is rather particularly hardcoded to the bias classes that they looked at in the original paper.
-In particular the template generation and analysis code assumed that the token that the model should predict would uniquely identify that subject.
-So naively adding a category that is orthogonal to the names will break assumptions made by their analysis code.
-The gender-ethnicity intersection questions were not affected by this because we had opted to use the names from Q-Pain to give a stronger racial signal to the LLMs.
+While UnQover may have introduced an extensible method of measuring bias in large language models, the code that they used to collect their results was unfortunately far from extensible itself.
+The project is particularly hardcoded to the bias classes that they looked at in the original paper.
+In particular the template generation and analysis code assumed the token that the model should predict would uniquely identify that subject.
+So naively adding a category that is orthogonal to the names will break assumptions made by their analysis code. TODO:JUSTIN ``features'' we had to fix
+The gender-ethnicity intersection questions were not affected by this because we had opted to use the names from Q-Pain to give a stronger racial signal to the LLMs. TODO:JUSTIN qpain earlier
 Unfortunately it was frustratingly difficult to correct these assumptions in their code and so were not able to report biases for gender-age and gender-education intersections.
 
-The code also uses private undocumented methods from the HuggingFace transformers library.
-Normally this would not be a problem, but we had trouble installing the particular version that was used by UnQover.
-Due to this we were unable to either run our results on the non-finetuned LLMs, or replicate the original results.
+
+The UnQover work is difficult to replicate as well. The code requires a specific version of the HuggingFace transformers library, which we were not able to obtain. Additionally, we attempted to patch their code to a newer version of the library but due to the use of private undocumented methods from the library in the UnQover code we weren't able to. Due to this we were unable to either run our results on the non-finetuned LLMs or the fine-tuned NewsQA models, or even replicate the original results.
 
 \section{Related work}
 
@@ -174,14 +173,14 @@ Recent works in bias detection have looked at bias in downstream tasks, using ch
 
 The work in UnQover goes deeper --- instead of simply analyzing how the final labels change, the scores for each answer are used which allows them to find various difficult-to-discover biases.
 
-The other half of the bias problem, how to mitigate it, is also actively studied. Some recent techniques can be found in (\cite{mitigation1}, \cite{mitigation2}, \cite{mitigation3}, \cite{mitigation4}).
+The other half of the bias problem, how to mitigate it, is also actively studied. Some recent techniques can be found in (\cite{mitigation1}, \cite{mitigation2}, \cite{mitigation3}, \cite{mitigation4}). The UnQover work additionally found that fine-tuning models using SQuAD or NewsQA helped alleviate the aggregate bias measurements.
 
 \section{Conclusion}
 
-In this work we examined intersectional bias by using the UnQover framework, which evaluates LLM-based QA systems on underspecified questions, using any preference for answer as a basis for bias. Intersectional bias appears to not behave in expected ways. Future work includes heavily modifying the source code base to further evaluate on other intersectional biases. 
+In this work we examined intersectional bias by using the UnQover framework, which evaluates LLM-based QA systems on underspecified questions, using any preference for answer as a basis for bias. Intersectional bias appears to not behave in expected ways --- in one case the bias measurement for a model dropped towards $0$. Future work includes heavily modifying the source code base to further evaluate on other intersectional biases. 
 
 \bibliographystyle{plain}
-\bibliography{bib}
+\bibliography{paper}
 
 \end{document}
 
