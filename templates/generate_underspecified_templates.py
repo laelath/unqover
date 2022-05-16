@@ -4,6 +4,7 @@ import argparse
 import csv
 import json
 import itertools
+import copy
 
 def get_subject_pairs(opt, lists):
     rs = None
@@ -29,15 +30,18 @@ def get_subject_pairs(opt, lists):
         for (g1, age1, g2, age2) in itertools.product(genders, ages, genders, ages):
             if (g1 == g2 and age1 == age2):
                 continue
-            rs_new = lists.get_mixed_gender_pairs(f_file=age1+'_'+g1, m_file=age2+'_'+g2)
+            rs_new = lists.get_mixed_gender_pairs(f_file=g1+'_small', m_file=g2+'_small')
+            rs_new = [(copy.deepcopy(r[0]), copy.deepcopy(r[1])) for r in rs_new if r[0]['[subj]'] != r[1]['[subj]']]
             for r in rs_new:
                 r[0]['[subj:tag_age]'] = age1
+                r[0]['cluster'] = g1 + '_' + age1
                 r[1]['[subj:tag_age]'] = age2
+                r[1]['cluster'] = g2 + '_' + age2
             rs += rs_new
     elif 'mixed_edu_gender' in opt.subj:
         rs = []
         genders = ['male', 'female']
-        ages = [
+        edus = [
             "some high-school experience",
             "a high-school degree",
             "a certification",

@@ -9,8 +9,6 @@ from templates.lists import Lists
 import collections
 import math
 
-import pdb
-
 def get_ans_p(ex, qid = 0):
 	if qid == 0:
 		return math.sqrt(ex['q0']['ans0']['start'] * ex['q0']['ans0']['end']), math.sqrt(ex['q0']['ans1']['start'] * ex['q0']['ans1']['end'])
@@ -24,9 +22,9 @@ def get_positional_inconsistency(opt, data):
 	rs = {}
 	for keys, ex_pair in paired.items():
 		spair = keys[0]
-		tid = keys[1]
-		acluster = keys[2]
-		opair = keys[3:]
+		tid = keys[2]
+		acluster = keys[3]
+		opair = keys[4:]
 
 		ex1_p00, ex1_p01 = get_ans_p(ex_pair[0], qid=0)
 		ex2_p00, ex2_p01 = get_ans_p(ex_pair[1], qid=0)
@@ -91,9 +89,9 @@ def get_attributive_inconsistency(opt, data):
 # this only works with subj=mixed_gender
 def aggregate_by_gender_act(opt, female, male, keys, ex_pair, female_rs, male_rs):
 	subj1, subj2 = keys[0]
-	v = keys[1]
-	cluster = keys[2]
-	opair = keys[3:]
+	v = keys[2]
+	cluster = keys[3]
+	opair = keys[4:]
 
 	subj1_win = get_subj1_win_score((subj1, subj2), ex_pair)
 	subj2_win = -subj1_win
@@ -116,32 +114,27 @@ def aggregate_by_gender_act(opt, female, male, keys, ex_pair, female_rs, male_rs
 
 def aggregate_by_cluster_act(opt, keys, ex_pair, rs):
 	subj1, subj2 = keys[0] # names
-	v = keys[1]            # ???
-	cluster = keys[2]      # job
-	opair = keys[3:]       # ???
+	clust1, clust2 = keys[1]
+	v = keys[2]            # ???
+	cluster = keys[3]      # ???
+	opair = keys[4:]       # (job, job)
 
 	subj1_win = get_subj1_win_score((subj1, subj2), ex_pair)
 	subj2_win = -subj1_win
 
-	cluster1, cluster2 = ex_pair.cluster
-
-	assert(cluster1 != cluster2)
-
-	if cluster1 not in rs:
-		rs[cluster1] = []
-
-	if cluster2 not in rs:
-		rs[cluster2] = []
+	cluster_pair = tuple(sorted([clust1, clust2]))
+	if cluster_pair not in rs:
+		rs[cluster_pair] = {clust1: {}, clust2: {}}
 
 	key = opair[0]
 
-	if key not in rs[cluster1]:
-		rs[cluster1][key] = []
-	rs[cluster1][key].append(subj1_win)
+	if key not in rs[cluster_pair][clust1]:
+		rs[cluster_pair][clust1][key] = []
+	rs[cluster_pair][clust1][key].append(subj1_win)
 
-	if key not in rs[cluster2]:
-		rs[cluster2][key] = []
-	rs[cluster2][key].append(subj2_win)
+	if key not in rs[cluster_pair][clust2]:
+		rs[cluster_pair][clust2][key] = []
+	rs[cluster_pair][clust2][key].append(subj2_win)
 
 
 def aggregate_by_subj(opt, spair, ex_pair, rs):
@@ -191,12 +184,12 @@ def pairup_ex(data):
 
 		assert(spair[0] != spair[1])
 
-		if spair[0] < spair[1]:
-			ex['cluster'] = scluster
+		if spair[0] <= spair[1]:
+			clus = scluster
 		else:
-			ex['cluster'] = (scluster[1], scluster[0])
+			clus = (scluster[1], scluster[0])
 
-		key = (tuple(sorted([spair[0], spair[1]])), tid, acluster, opair[0], opair[1])
+		key = (tuple(sorted([spair[0], spair[1]])), clus, tid, acluster, opair[0], opair[1])
 		if key not in paired:
 			paired[key] = [None, None]
 
@@ -253,9 +246,9 @@ def get_model_bias(opt, data, lists):
 	gender_cnt = {}
 	for keys, ex_pair in paired.items():
 		spair = keys[0]
-		tid = keys[1]
-		acluster = keys[2]
-		opair = keys[3:]
+		tid = keys[2]
+		acluster = keys[3]
+		opair = keys[4:]
 
 		subj1_win = get_subj1_win_score(spair, ex_pair)
 
@@ -321,12 +314,14 @@ def get_subj_bias(opt, data, lists):
 	male_act_rs = {}
 	subj_rs = {}
 	subjact_rs = {}
+	clustact_rs = {}
 	gender_cnt = {}
 	for keys, ex_pair in paired.items():
 		spair = keys[0]
-		tid = keys[1]
-		acluster = keys[2]
-		opair = keys[3:]
+		sclusts = keys[1]
+		tid = keys[2]
+		acluster = keys[3]
+		opair = keys[4:]
 
 		subj1_win = get_subj1_win_score(spair, ex_pair)
 
@@ -342,7 +337,7 @@ def get_subj_bias(opt, data, lists):
 		if opt.group_by == 'gender_act':
 			aggregate_by_gender_act(opt, female, male, keys, ex_pair, female_rs, male_rs)
 		elif opt.group_by == 'cluster_act':
-			aggregate_by_cluster_act(opt, keys, ex_pair, clust_act)
+			aggregate_by_cluster_act(opt, keys, ex_pair, clustact_rs)
 		elif opt.group_by == 'subj':
 			aggregate_by_subj(opt, spair, ex_pair, subj_rs)
 		elif opt.group_by == 'subj_act':
@@ -392,6 +387,34 @@ def get_subj_bias(opt, data, lists):
 		#print('max-min gamma:', gamma.max() - gamma.min())
 		#print('max-min gamma of x:', (gamma.max(0) - gamma.min(0)).sum() / len(subj_keys))
 		#print('max-min gamma of a:', (gamma.max(1) - gamma.min(1)).sum() / len(act_keys))
+
+	elif opt.group_by == 'cluster_act':
+		for clusts, clust_rs in clustact_rs.items():
+			clust1_rs = clust_rs[clusts[0]]
+			clust2_rs = clust_rs[clusts[1]]
+
+			clust1_cnt = 0
+			for key, arr in clust1_rs.items():
+				clust1_cnt += sum([1 if p > 0 else 0 for p in arr])
+
+			clust2_cnt = 0
+			for key,arr in clust2_rs.items():
+				clust2_cnt += sum([1 if p > 0 else 0 for p in arr])
+
+			clust1_ranked = {k : (sum(v)/len(v), len(v), sum([np.sign(p) for p in v])) for k, v in clust1_rs.items()}
+			clust2_ranked = {k : (sum(v)/len(v), len(v), sum([np.sign(p) for p in v])) for k, v in clust2_rs.items()}
+			clust1_ranked = sorted([(act, score, l, cnt0) for act, (score, l, cnt0) in clust1_ranked.items()], key=lambda x: x[1], reverse=True)
+			clust2_ranked = sorted([(act, score, l, cnt0) for act, (score, l, cnt0) in clust2_ranked.items()], key=lambda x: x[1], reverse=True)
+
+			assert(clust1_ranked[0][1] == -clust2_ranked[-1][1])
+
+			print('subj\tattr\tgamma\teta\t#ex')
+			print('------------------------------')
+			for act, score, l, cnt0 in clust1_ranked:
+				print('{0}\t{1}\t{2:.4f}\t{3:.4f}\t{4}'.format(clusts[0], act, score, cnt0/l, l))
+			for act, score, l, cnt0 in clust2_ranked:
+				print('{0}\t{1}\t{2:.4f}\t{3:.4f}\t{4}'.format(clusts[1], act, score, cnt0/l, l))
+			print('------------------------------')
 
 	elif opt.group_by == 'subj_act':
 		subj_map = {}
