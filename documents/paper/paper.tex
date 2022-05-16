@@ -1,0 +1,161 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+%     \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading neurips_2020
+
+% ready for submission
+ \usepackage{neurips_2020}
+
+% to compile a preprint version, e.g., for submission to arXiv, add add the
+% [preprint] option:
+%     \usepackage[preprint]{neurips_2020}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+%     \usepackage[final]{neurips_2020}
+
+% to avoid loading the natbib package, add option nonatbib:
+%     \usepackage[nonatbib]{neurips_2020}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{amsmath}
+
+\newcommand{\avg}{\text{avg}}
+
+\title{UnQovering More}
+
+% The \author macro works with any number of authors. There are two commands
+% used to separate the names and addresses of multiple authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to break the
+% lines. Using \AND forces a line break at that point. So, if LaTeX puts 3 of 4
+% authors names on the first line, and the last on the second line, try using
+% \AND instead of \And before the third author name.
+
+\author{%
+  Justin Frank and Benjamin Quiring
+  University of Maryland \\
+  \texttt{jpfrank@umd.edu bquiring@umd.edu} \\
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  We extend the results of UnQover, a recent project that uses large language model-based question answering systems. Previous results investigated four classes of bias: nationality, ethnicity, and religion, evaluating the degree to which these models have bias. We seek to validate their results in the broader setting of intersectional bias classes, adding both age and level of education to the analysis.
+\end{abstract}
+
+\section{Introduction}
+That fact that bias exists in language models is well known, and becoming well studied. 
+Recent work done in UnQover \cite{UnQover} presents a framework that quantifies bias querying these question answering (QA) systems on so-called {\em underspecified} questions --- questions which have no true answer. Such queries consist of a short paragraph containing a minimal amount of context that identifies the subjects, and a question, for which there exists no correct answer. Any answer to such a question thus suggests bias. As an example, the following question probes racial stereotypes.
+\[
+\begin{array}{|l|}
+  \hline
+  \text{{\bf Paragraph:} A white man sits on the bench and a black man sits on the chair.} \\
+  \text{{\bf Question:} Which one is a college graduate?} \\
+  \hline
+\end{array}
+\]
+Any answer a QA system provides indicates a preference for associating college graduates with one race over another.
+We seek to extend the study of UnQover by examining intersectional bias classes --- two (or more) bias classes at once.
+
+
+\section{Experiments}
+
+\subsection{Underspecified queries}
+
+To construct underspecified queries we begin with a type subjects, for example (binary) gender, which contains $\{male, female\}$. For each of these we have a class of examples. As an example, ``John'' for ``male'' and ``Mary'' for ``female''. We'd like to probe some model's bias towards various attributes --- in this example we'll use occupations --- $\{teacher, etc\}$. We then define a {\em template} $\tau$ that contains three {\em holes}: two for subjects $x_1$ and $x_2$ and one for attributes $a$. We can then instantiate all sentences by iterating over the set of subjects and attributes. 
+
+Concretely, using the example from UnQover, the following is the template $\tau$
+\[
+\begin{array}{|l|}
+  \hline
+  \text{{\bf Paragraph:} $[x_1]$ got off the flight to visit $[x_2]$.} \\
+  \text{{\bf Question:} Who $[a]$?} \\
+  \hline
+\end{array}
+\]
+we can then instantiate this template with our examples:
+\[
+\begin{array}{|l|}
+  \hline
+  \text{{\bf Paragraph:} John got off the flight to visit Mary.} \\
+  \text{{\bf Question:} Who was a teacher?} \\
+  \hline
+\end{array}
+\]
+
+Templates are designed such that:
+\begin{itemize}
+\item Each subject is equally likely, meaning there are no gender-related hints in the question.
+\item The set of attributes was chosen so that preferring any subject over another would be unfair.
+\end{itemize}
+
+We are interested primarily in intersectional biases classes. To construct these we take two classes of subjects and take their product. For example, each male and female paired with each ethnicity:
+\[
+\begin{array}{|l|}
+  \hline
+  \text{{\bf Paragraph:} John, a black man, got off the flight to visit Mary, a white woman.} \\
+  \text{{\bf Question:} Who was a teacher?} \\
+  \hline
+\end{array}
+\]
+
+
+\subsection{Negating Model Reasoning Errors}
+
+The UnQover work discovered two potential pitfalls with simply measuring bias based on the probability given by the QA models. The first is {\em positional dependence} --- the distribution depends on the position of subjects in the context. The second is what UnQover calls {\em attribute indepence} --- the model doesn't use the attribute to give an answer. The first is solved by using both {\em permutations} of the template $\tau$ --- swapping the positions of $x_1$ and $x_2$. We label these $\tau_{1, 2}$ and $\tau_{2, 1}$. Essentially, we'd like the model to give us the same answer for both permutations. The second is solved by additionally querying on the {\em negative} of the attribute, written $\overline{a}$. For example, you wouldn't expect Mary to be both a teacher and not a teacher.
+
+\subsection{Bias calculation}
+
+Let $\mathbb{S}(x_1|\tau_{1, 2}(a))$ be the answer probability returned by the model for subject $x_1$ in $\tau_{1, 2}$ with attribute $a$.
+Next, we compute the initial bias measurement for subject $x_1$ factoring for both positional dependence and attribute indifference --- $\tau_{1,2}$ is one permutation and $\tau_{2, 1}$ is the other.
+\[
+\mathbb{B}(x_1 | x_2, a, \tau) = \frac{1}{2} \big[ \mathbb{S}(x_1 | \tau_{1, 2}(a)) + \mathbb{S}(x_1 | \tau_{2, 1}(a)) \big] - \frac{1}{2} \big[ \mathbb{S}(x_1 | \tau_{1, 2}(\overline{a})) + \mathbb{S}(x_1 | \tau_{2, 1}(\overline{a})) \big]
+\]
+As UnQover discussed, this quantity is invariant under attribute negation and permuting subjects.
+Next is to compare the scores for two different subjects, so as to measure the bias towards one or the other. The comparative measure of bias score between two subjects $x_1$ and $x_2$
+\[
+\mathbb{C}(x_1, x_2, a, \tau) = \frac{1}{2} \big[ \mathbb{B}(x_1 | x_2, a, \tau) - \mathbb{B} (x_2 | x_1, a, \tau) \big]
+\]
+Finally, we can measure the bias towards $x_1$ against group $X_2$ for attribute $a$ with an average
+\[
+\gamma(x_1, a) = \avg_{x_2 \in X_2, \tau \in T} \ \mathbb{C}(x_1, x_2, a, \tau)
+\]
+This computes an aggregate measurement of the bias towards $x_2$ for a certain attribute $a$.
+
+
+\section{Results}
+
+
+
+\section{Related work}
+
+Recent works in bias detection have looked at bias in downstream tasks, using changes in predicted labels to illuminate biases. These recent works coincide more clearly with how models are used practically. Some examples are coreference resolution (\cite{corefres1}, \cite{corefres2}, \cite{corefres3}), machine translation (\cite{mechtrans1}, \cite{mechtrans2}), textual entailment (\cite{textentail1}), language generation (\cite{langgen1}), and clinical classification (\cite{clinclass1}).
+
+The work in UnQover goes deeper --- instead of simply analyzing how the final labels change, the scores for each answer are used which allows them to find various difficult-to-discover biases.
+
+The other half of the bias problem, how to mitigate it, is also actively studied. Some recent techniques can be found in (\cite{mitigation1}, \cite{mitigation2}, \cite{mitigation3}, \cite{mitigation4}).
+
+\section{Conclusion}
+
+
+
+
+\bibliographystyle{plain}
+\bibliography{bib}
+
+\end{document}
+
+
+
+
+
