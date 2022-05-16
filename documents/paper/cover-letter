@@ -2,10 +2,10 @@
 Cover letter - Extending UnQover
 Justin Frank and Benjamin Quiring
 
-Justin primarily worked with the Python code of the UnQover project, along with several debugging sessions. This involved modifying the original code for UnQover as much as possible for our uses. We both generated templates and data.
+Justin primarily worked with the Python code of the UnQover project, along with several debugging sessions. This involved modifying the original code for UnQover to accomodate the question templates for the new bias categories. We both generated templates and subject lists.
 Benjamin primarily did the writing work, and Justin helped with the results section and with revising.
 
-The UnQover code is... frustratingly difficult to work with. It can't run on a normal machine (it _requires_ a certain level of graphics card) and it was surprisingly difficult to make the changes we wanted to. As we stated in the paper, we ended up not being able to obtain the results we wanted to for education and age despite constructing the data, because of how their implementation fundamentally worked. 
+The UnQover code is... frustratingly difficult to work with. Along with requiring a decent amount of compute for the data collection, much of the template generation and analysis code was hardcoded for the bias classes studied in the original paper, and it was surprisingly difficult to extend with the changes we wanted. As we stated in the paper, we ended up not being able to obtain the results we wanted to for education and age despite constructing the data, because of how their implementation fundamentally worked. 
 
 Our source code can be found at
 https://github.com/laelath/unqover

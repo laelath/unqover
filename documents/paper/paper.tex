@@ -155,9 +155,18 @@ Figure 1 contains the original scores from UnQover for $\mu$ for gender and ethn
 \end{figure}
 
 
-\subsection{Uncovering UnQovering}
+\subsection{Uncovering UnQover}
 
-JUSTIN:TODO describe issues
+While UnQover may introduce an extensible method of measuring bias in large language models, the code that they used to collect their results was unfortunately far from extensible itself.
+The project is rather particularly hardcoded to the bias classes that they looked at in the original paper.
+In particular the template generation and analysis code assumed that the token that the model should predict would uniquely identify that subject.
+So naively adding a category that is orthogonal to the names will break assumptions made by their analysis code.
+The gender-ethnicity intersection questions were not affected by this because we had opted to use the names from Q-Pain to give a stronger racial signal to the LLMs.
+Unfortunately it was frustratingly difficult to correct these assumptions in their code and so were not able to report biases for gender-age and gender-education intersections.
+
+The code also uses private undocumented methods from the HuggingFace transformers library.
+Normally this would not be a problem, but we had trouble installing the particular version that was used by UnQover.
+Due to this we were unable to either run our results on the non-finetuned LLMs, or replicate the original results.
 
 \section{Related work}
 
